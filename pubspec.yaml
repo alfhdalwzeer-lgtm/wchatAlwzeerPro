@@ -1,6 +1,7 @@
-name: wchat_alwzeer
-description: "Al-Wazir Royal Chat App"
+name: wchat_alwzeer_pro
+description: "Al-Wazir Chat Application"
 publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
@@ -9,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   cupertino_icons: ^1.0.6
 
 dev_dependencies:
@@ -18,10 +20,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  dependencies:
-  flutter:
-    sdk: flutter
-  workmanager: ^0.5.2
-  flutter_local_notifications: ^17.0.0
-
-crown.png
