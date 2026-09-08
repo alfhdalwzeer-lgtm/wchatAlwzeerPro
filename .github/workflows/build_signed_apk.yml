@@ -22,22 +22,20 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.x'
+          flutter-version: '3.19.6'
           channel: 'stable'
 
-      - name: Create Project and Build APK
+      - name: Create Flutter Project Skeleton
         run: |
-          mkdir temp_app
-          cd temp_app
-          flutter create --org com.alwzeer.chat --project-name wchat_alwzeer .
-          cp -f ../pubspec.yaml ./pubspec.yaml
-          cp -f ../lib/main.dart ./lib/main.dart
+          flutter create --org com.alwzeer.chat --project-name wchat_alwzeer . --overwrite
+
+      - name: Build Android APK
+        run: |
           flutter pub get
           flutter build apk --release --no-tree-shake-icons
-          cp build/app/outputs/flutter-apk/app-release.apk ../app-release.apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
