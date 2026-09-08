@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-// 1. تهيئة مشغل الإشعارات المحلية
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-// 2. المحرك الذي يعمل في الخلفية تلقائياً
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((taskName, inputData) async {
-    // إعدادات الإشعار الذي سيظهر للمستخدم تلقائياً عند تنفيذ المهمة
     const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       'auto_channel_id',
       'الإشعارات التلقائية',
@@ -22,7 +19,6 @@ void callbackDispatcher() {
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidDetails);
 
-    // عرض الإشعار عند عمل المهمة التلقائية
     await flutterLocalNotificationsPlugin.show(
       0,
       'تحديث تلقائي',
@@ -37,7 +33,6 @@ void callbackDispatcher() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // تهيئة الإشعارات لنظام Android
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   
@@ -46,7 +41,6 @@ void main() async {
       
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  // تهيئة محرك المهام التلقائية
   Workmanager().initialize(
     callbackDispatcher,
     isInDebugMode: false,
@@ -64,27 +58,43 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('تطبيق المهام الإشعارات التلقائية'),
-          backgroundColor: Colors.blueAccent,
+          title: const Text('الصادق - العمليات التلقائية'),
+          backgroundColor: Colors.indigo,
         ),
         body: Center(
-          child: ElevatedButton.icon(
-            icon: const Icon(Icons.alarm_on),
-            label: const Text('تفعيل الإشعارات والعمليات التلقائية'),
-            onPressed: () {
-              // جدولة مهمة دورية تعمل كل 15 دقيقة تلقائياً بالخلفية
-              Workmanager().registerPeriodicTask(
-                "auto_task_id",
-                "periodicBackgroundTask",
-                frequency: const Duration(minutes: 15),
-              );
-
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('تم تفعيل المهمة التلقائية بنجاح!'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.autorenew, size: 80, color: Colors.indigo),
+              const SizedBox(height: 20),
+              const Text(
+                'مرحباً بك في التطبيق!',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  backgroundColor: Colors.indigo,
+                  foregroundColor: Colors.white,
                 ),
-              );
-            },
+                icon: const Icon(Icons.alarm_on),
+                label: const Text('تفعيل الإشعارات والعمليات التلقائية', style: TextStyle(fontSize: 16)),
+                onPressed: () {
+                  Workmanager().registerPeriodicTask(
+                    "auto_task_id",
+                    "periodicBackgroundTask",
+                    frequency: const Duration(minutes: 15),
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('تم تفعيل المهمة التلقائية بنجاح! ستصلك إشعارات بالخلفية.'),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
