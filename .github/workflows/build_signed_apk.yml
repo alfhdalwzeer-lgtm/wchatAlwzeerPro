@@ -25,14 +25,13 @@ jobs:
           flutter-version: '3.19.x'
           channel: 'stable'
 
-      - name: Create Android Project Structure & Build
+      - name: Create Project and Build APK
         run: |
           mkdir temp_app
           cd temp_app
           flutter create --org com.alwzeer.chat --project-name wchat_alwzeer .
           cp -f ../pubspec.yaml ./pubspec.yaml
           cp -f ../lib/main.dart ./lib/main.dart
-          sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' android/app/build.gradle
           flutter pub get
           flutter build apk --release --no-tree-shake-icons
           cp build/app/outputs/flutter-apk/app-release.apk ../app-release.apk
