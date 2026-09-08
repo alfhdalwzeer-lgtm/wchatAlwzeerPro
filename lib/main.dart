@@ -1,115 +1,103 @@
 import 'package:flutter/material.dart';
-import 'screens/chat_screen.dart';
-import 'screens/profile_screen.dart';
+import 'package:workmanager/workmanager.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() {
-  runApp(const WchatAlwzeerApp());
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask((taskName, inputData) async {
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'auto_channel_id',
+      'الإشعارات التلقائية',
+      channelDescription: 'قناة الإشعارات الدورية للتطبيق',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidDetails);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'تحديث تلقائي',
+      'تم تنفيذ المهمة البرمجية بالخلفية بنجاح!',
+      notificationDetails,
+    );
+
+    return Future.value(true);
+  });
 }
 
-class WchatAlwzeerApp extends StatelessWidget {
-  const WchatAlwzeerApp({super.key});
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+      
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: false,
+  );
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'wchatAlwzeer',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF121212),
-        primaryColor: const Color(0xFFD4AF37),
-        useMaterial3: false,
-      ),
-      home: const MainHomeScreen(),
-    );
-  }
-}
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('الصادق - العمليات التلقائية'),
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.autorenew, size: 80, color: Colors.indigo),
+              const SizedBox(height: 20),
+              const Text(
+                'مرحباً بك في التطبيق!',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  backgroundColor: Colors.indigo,
+                  foregroundColor: Colors.white,
+                ),
+                icon: const Icon(Icons.alarm_on),
+                label: const Text('تفعيل الإشعارات والعمليات التلقائية', style: TextStyle(fontSize: 16)),
+                onPressed: () {
+                  Workmanager().registerPeriodicTask(
+                    "auto_task_id",
+                    "periodicBackgroundTask",
+                    frequency: const Duration(minutes: 15),
+                  );
 
-class MainHomeScreen extends StatefulWidget {
-  const MainHomeScreen({super.key});
-
-  @override
-  State<MainHomeScreen> createState() => _MainHomeScreenState();
-}
-
-class _MainHomeScreenState extends State<MainHomeScreen> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF1E232A),
-        title: const Text('Al-Wazir Chat', style: TextStyle(color: Color(0xFFD4AF37), fontWeight: FontWeight.bold)),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person, color: Color(0xFFD4AF37)),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
-            },
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('تم تفعيل المهمة التلقائية بنجاح! ستصلك إشعارات بالخلفية.'),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-          IconButton(icon: const Icon(Icons.search, color: Color(0xFFD4AF37)), onPressed: () {}),
-        ],
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: const Color(0xFFD4AF37),
-          labelColor: const Color(0xFFD4AF37),
-          unselectedLabelColor: Colors.grey,
-          tabs: const [
-            Tab(text: "المحادثات"),
-            Tab(text: "الحالات"),
-            Tab(text: "المجموعات"),
-          ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          const ChatsListTab(),
-          const Center(child: Text("اضغط + لإضافة حالة جديدة", style: TextStyle(color: Colors.white70))),
-          const Center(child: Text("المجموعات", style: TextStyle(color: Colors.white70))),
-        ],
-      ),
-    );
-  }
-}
-
-class ChatsListTab extends StatelessWidget {
-  const ChatsListTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: const CircleAvatar(
-            backgroundColor: Color(0xFFD4AF37),
-            child: Icon(Icons.person, color: Colors.black),
-          ),
-          title: Text("مستخدم ${index + 1}", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          subtitle: const Text("مرحباً بك في Al-Wazir Chat", style: TextStyle(color: Colors.grey)),
-          trailing: const Text("12:00 م", style: TextStyle(color: Colors.grey, fontSize: 12)),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ChatScreen(userName: "مستخدم ${index + 1}")),
-            );
-          },
-        );
-      },
     );
   }
 }
