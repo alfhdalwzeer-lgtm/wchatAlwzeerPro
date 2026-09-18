@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+
+import '../theme/app_colors.dart';
+
+class AvatarCircle extends StatelessWidget {
+  final IconData icon;
+  final double size;
+
+  const AvatarCircle({
+    super.key,
+    this.icon = Icons.person,
+    this.size = 54,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: size / 2,
+
+      backgroundColor: AppColors.header,
+
+      child: Icon(
+        icon,
+        color: AppColors.gold,
+        size: size * .52,
+      ),
+    );
+  }
+}
