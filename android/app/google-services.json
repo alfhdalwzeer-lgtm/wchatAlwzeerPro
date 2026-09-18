@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "123456789012",
-    "project_id": "wchatalwzeerpro-app",
-    "storage_bucket": "wchatalwzeerpro-app.appspot.com"
+    "project_number": "457578868180",
+    "project_id": "al-wazir-chat",
+    "storage_bucket": "al-wazir-chat.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123456789012:android:abcdef123456",
+        "mobilesdk_app_id": "1:457578868180:android:8c9f288c46f8b342453a41",
         "android_client_info": {
-          "package_name": "com.example.wchatalwzeerpro"
+          "package_name": "com.wchat.alwzeer"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDummyKeyForYourFirebaseProject123"
+          "current_key": "AIzaSyBVdkRLozjGHU76pO2CwWoBuuJmc_j0ArE"
         }
       ],
       "services": {
