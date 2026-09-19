@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart'; // يستدعي الشاشة الرئيسية التي قمت بإنشائها
-import 'settings_screen.dart'; // يستدعي شاشة الإعدادات
+import 'home_screen.dart'; 
+import 'settings_screen.dart'; 
 import 'splash_screen.dart';
-
+import 'status_screen.dart';
+import 'status_privacy_screen.dart';
 
 void main() {
   runApp(const AlWazirChatApp());
@@ -17,7 +18,7 @@ class AlWazirChatApp extends StatelessWidget {
       title: 'Al-Wazir Chat - الفهد',
       debugShowCheckedModeBanner: false,
       
-      // ثيم الفهد الداكن والذهبي الجديد
+      // ثيم الفهد الداكن والذهبي
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: const Color(0xFF11171D), // الخلفية الداكنة
@@ -43,12 +44,17 @@ class AlWazirChatApp extends StatelessWidget {
           unselectedItemColor: Colors.grey,
         ),
         useMaterial3: true,
-          home: const SplashScreen(),
       ),
+      home: const SplashScreen(),
+
+      // مسارات التنقل إلى الشاشات الجديدة
+      routes: {
+        '/status': (context) => const StatusScreen(),
+        '/status_privacy': (context) => const StatusPrivacyScreen(),
+      },
     );
   }
-
-
+}
 
 class ChatHomeScreen extends StatefulWidget {
   const ChatHomeScreen({super.key});
@@ -57,9 +63,7 @@ class ChatHomeScreen extends StatefulWidget {
   State<ChatHomeScreen> createState() => _ChatHomeScreenState();
 }
 
-class _ChatHomeScr
-  eenState extends State<ChatHomeScreen> {
-  // الحفاظ على المنطق القديم لإرسال وحفظ الرسائل
+class _ChatHomeScreenState extends State<ChatHomeScreen> {
   final List<String> _messages = [];
   final TextEditingController _controller = TextEditingController();
   int _currentIndex = 0;
@@ -82,7 +86,7 @@ class _ChatHomeScr
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
           IconButton(icon: const Icon(Icons.camera_alt_outlined), onPressed: () {}),
           
-          // القائمة المنسدلة (ثلاث نقاط) للانتقال للإعدادات أو جهات الاتصال
+          // القائمة المنسدلة (ثلاث نقاط)
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
             onSelected: (value) {
@@ -91,12 +95,15 @@ class _ChatHomeScr
                   context,
                   MaterialPageRoute(builder: (context) => const SettingsScreen()),
                 );
+              } else if (value == 'status_privacy') {
+                Navigator.pushNamed(context, '/status_privacy');
               }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(value: 'profile', child: Text('الملف الشخصي')),
               const PopupMenuItem<String>(value: 'contacts', child: Text('جهات الاتصال')),
               const PopupMenuItem<String>(value: 'calls', child: Text('المكالمات')),
+              const PopupMenuItem<String>(value: 'status_privacy', child: Text('خصوصية الحالة')),
               const PopupMenuItem<String>(value: 'settings', child: Text('الإعدادات')),
             ],
           ),
@@ -108,7 +115,14 @@ class _ChatHomeScr
       // شريط الملاحة السفلي (الدردشات، المجموعات، المكالمات، الحالة)
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
+        onTap: (index) {
+          if (index == 3) {
+            // فتح شاشة الحالة المستقلة عند الضغط على تبويب الحالة
+            Navigator.pushNamed(context, '/status');
+          } else {
+            setState(() => _currentIndex = index);
+          }
+        },
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'الدردشات'),
@@ -120,7 +134,11 @@ class _ChatHomeScr
       
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFFFC107),
-        onPressed: () {},
+        onPressed: () {
+          if (_currentIndex == 3) {
+            Navigator.pushNamed(context, '/status');
+          }
+        },
         child: Icon(
           _currentIndex == 3 ? Icons.camera_alt : Icons.chat,
           color: Colors.black,
@@ -132,7 +150,6 @@ class _ChatHomeScr
   // التحكم بمحتوى الشاشة بناءً على التبويب المختار
   Widget _buildBody() {
     if (_currentIndex == 3) {
-      // شاشة الحالة الجديدة
       return Column(
         children: [
           ListTile(
@@ -142,7 +159,9 @@ class _ChatHomeScr
             ),
             title: const Text('حالتي', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             subtitle: const Text('اضغط لإضافة حالة جديدة', style: TextStyle(color: Colors.grey)),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/status');
+            },
           ),
           const Expanded(
             child: Center(
@@ -160,7 +179,7 @@ class _ChatHomeScr
       );
     }
 
-    // شاشة الدردشة والتفاعل القديمة (مع المظهر الذهبي والأسود الجديد)
+    // واجهة المحادثة الرئيسية
     return Column(
       children: [
         Expanded(
@@ -188,7 +207,7 @@ class _ChatHomeScr
                 ),
         ),
         
-        // مربع كتابة الرسالة والإرسال المحدث
+        // مربع كتابة الرسالة والإرسال
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -214,7 +233,7 @@ class _ChatHomeScr
               IconButton(
                 icon: const Icon(Icons.send),
                 onPressed: _sendMessage,
-                color: const Color(0xFFFFC107), // زر الإرسال باللون الذهبي
+                color: const Color(0xFFFFC107),
               ),
             ],
           ),
