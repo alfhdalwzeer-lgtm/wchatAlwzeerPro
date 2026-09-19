@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-// نموذج يمثل بيانت الرسالة
+// نموذج يمثل بيانات الرسالة
 class MessageModel {
   final String text;
   final bool isMe; // هل الرسالة صادرة أم واردة
   final String time;
-  final bool isRead; // هل تم الاستلام/القرءاة
+  final bool isRead; // هل تم الاستلام/القراءة
 
   MessageModel({
     required this.text,
@@ -188,7 +188,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // فقاعة الرسالة المصممة لمؤشرات الإرسال الاستلام (✓ / ✓✓)
+  // فقاعة الرسالة المصممة لمؤشرات الإرسال والاستلام (✓ / ✓✓)
   Widget _buildMessageBubble(MessageModel msg) {
     return Align(
       alignment: msg.isMe ? Alignment.centerLeft : Alignment.centerRight,
@@ -290,7 +290,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               controller: _controller,
                               onChanged: (text) {
                                 setState(() {
-                                  // إرسال إشارة جاري الكتابة
+                                  isTyping = text.isNotEmpty;
                                 });
                               },
                               decoration: const InputDecoration(
