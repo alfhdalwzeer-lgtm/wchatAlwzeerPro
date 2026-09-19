@@ -44,16 +44,28 @@ class _HomeScreenState extends State<HomeScreen> {
       
       body: _buildBody(),
       
-      // الشريط السفلي
+      // الشريط السفلي المحدث بالترتيب الصحيح من اليمين
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'الدردشات'),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'المجموعات'),
-          BottomNavigationBarItem(icon: Icon(Icons.call), label: 'المكالمات'),
-          BottomNavigationBarItem(icon: Icon(Icons.donut_large), label: 'الحالة'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'الدردشات',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            label: 'المجموعات',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.call),
+            label: 'المكالمات',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.update),
+            label: 'التحديثات',
+          ),
         ],
       ),
       
@@ -65,10 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // التبديل بين محتوى الشاشات
+  // التبديل بين محتوى الشاشات حسب الترتيب الجديد
   Widget _buildBody() {
     if (_currentIndex == 3) {
-      // تبويب الحالة
+      // تبويب التحديثات (الحالة والقنوات)
       return Column(
         children: [
           ListTile(
@@ -87,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Icon(Icons.auto_awesome, color: Color(0xFFFFC107), size: 48),
                   SizedBox(height: 12),
-                  Text('لا توجد حالات بعد', style: TextStyle(color: Colors.white, fontSize: 16)),
+                  Text('لا توجد تحديثات بعد', style: TextStyle(color: Colors.white, fontSize: 16)),
                 ],
               ),
             ),
@@ -96,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    // تبويب الدردشات
+    // تبويب الدردشات (أو التبويبات الأخرى)
     return ListView(
       children: [
         ListTile(
