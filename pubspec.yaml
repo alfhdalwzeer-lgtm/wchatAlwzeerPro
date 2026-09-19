@@ -14,28 +14,28 @@ dependencies:
     sdk: flutter
 
   # --- قواعد البيانات والتخزين المحلي ---
-  sqflite: ^2.3.3
-  path: ^1.9.0
-  shared_preferences: ^2.2.3
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  shared_preferences: ^2.2.2
 
   # --- مكتبات الواجهات والملصقات والإيموجي ---
-  cupertino_icons: ^1.0.8
-  emoji_picker_flutter: ^2.1.0
-  flutter_spinkit: ^5.2.1
-  cached_network_image: ^3.4.0
+  cupertino_icons: ^1.0.6
+  emoji_picker_flutter: ^1.6.3
+  flutter_spinkit: ^5.2.0
+  cached_network_image: ^3.3.1
 
   # --- التقاط الملفات والمستندات والوسائط ---
-  file_picker: ^8.0.6
-  image_picker: ^1.1.2
-  permission_handler: ^11.3.1
+  file_picker: ^8.0.0
+  image_picker: ^1.0.7
+  permission_handler: ^11.3.0
 
-  # --- الصوتيات والتسجيل (محدثة لدعم Android v2 embedding) ---
-  audioplayers: ^6.0.0
-  record: ^5.1.2
+  # --- الصوتيات والتسجيل ---
+  audioplayers: ^5.2.1
+  record: ^5.1.0
 
   # --- حزم الاتصال والشبكات والـ API ---
-  http: ^1.2.1
-  url_launcher: ^6.3.0
+  http: ^1.2.0
+  url_launcher: ^6.2.4
 
 dev_dependencies:
   flutter_test:
