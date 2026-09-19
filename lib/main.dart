@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'home_screen.dart'; // يستدعي الشاشة الرئيسية التي قمت بإنشائها
 import 'settings_screen.dart'; // يستدعي شاشة الإعدادات
+import 'splash_screen.dart';
+
 
 void main() {
   runApp(const AlWazirChatApp());
@@ -41,13 +43,12 @@ class AlWazirChatApp extends StatelessWidget {
           unselectedItemColor: Colors.grey,
         ),
         useMaterial3: true,
+          home: const SplashScreen(),
       ),
-      
-      // الشاشة الرئيسية المحدثة
-      home: const ChatHomeScreen(),
     );
   }
-}
+
+
 
 class ChatHomeScreen extends StatefulWidget {
   const ChatHomeScreen({super.key});
@@ -56,7 +57,8 @@ class ChatHomeScreen extends StatefulWidget {
   State<ChatHomeScreen> createState() => _ChatHomeScreenState();
 }
 
-class _ChatHomeScreenState extends State<ChatHomeScreen> {
+class _ChatHomeScr
+  eenState extends State<ChatHomeScreen> {
   // الحفاظ على المنطق القديم لإرسال وحفظ الرسائل
   final List<String> _messages = [];
   final TextEditingController _controller = TextEditingController();
