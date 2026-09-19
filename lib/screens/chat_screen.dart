@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/message_model.dart';
+import '../services/database_helper.dart';
 
 class ChatScreen extends StatefulWidget {
   final String userName;
@@ -16,14 +17,28 @@ class _ChatScreenState extends State<ChatScreen> {
   bool showStickers = false;
   bool isTyping = false;
   bool isOnline = true;
+  bool isLoading = true;
 
   final TextEditingController _controller = TextEditingController();
-  final List<MessageModel> _messages = [
-    MessageModel(text: 'السلام عليكم ورحمة الله', isMe: false, time: '10:30 ص', isRead: true),
-    MessageModel(text: 'وعليكم السلام ورحمة الله وبركاته', isMe: true, time: '10:31 ص', isRead: true),
-  ];
+  List<MessageModel> _messages = [];
 
-  void _sendMessage() {
+  @override
+  void initState() {
+    super.initState();
+    _loadMessagesFromDatabase();
+  }
+
+  // تحميل الرسائل من قاعدة البيانات المحلية
+  Future<void> _loadMessagesFromDatabase() async {
+    final messages = await DatabaseHelper.instance.getAllMessages();
+    setState(() {
+      _messages = messages;
+      isLoading = false;
+    });
+  }
+
+  // إرسال وحفظ الرسالة في قاعدة البيانات
+  Future<void> _sendMessage() async {
     if (_controller.text.trim().isEmpty) return;
 
     final newMessage = MessageModel(
@@ -33,12 +48,18 @@ class _ChatScreenState extends State<ChatScreen> {
       isRead: false,
     );
 
+    // إضافة للواجهة
     setState(() {
       _messages.add(newMessage);
       _controller.clear();
       showFileMenu = false;
+      isTyping = false;
     });
 
+    // حفظ في SQLite
+    await DatabaseHelper.instance.insertMessage(newMessage);
+
+    // محاكاة استلام القراءة بعد ثانيتين
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
@@ -56,24 +77,42 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
+  // مسح الدردشة من قاعدة البيانات والواجهة
+  Future<void> _clearChat() async {
+    await DatabaseHelper.instance.clearAllMessages();
+    setState(() {
+      _messages.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: _buildChatAppBar(context),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(12),
-                itemCount: _messages.length,
-                itemBuilder: (context, index) => _buildMessageBubble(_messages[index]),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  Expanded(
+                    child: _messages.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'لا توجد رسائل بعد',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          )
+                        : ListView.builder(
+                            padding: const EdgeInsets.all(12),
+                            itemCount: _messages.length,
+                            itemBuilder: (context, index) =>
+                                _buildMessageBubble(_messages[index]),
+                          ),
+                  ),
+                  _buildChatInputArea(),
+                ],
               ),
-            ),
-            _buildChatInputArea(),
-          ],
-        ),
       ),
     );
   }
@@ -113,7 +152,11 @@ class _ChatScreenState extends State<ChatScreen> {
         PopupMenuButton<String>(
           icon: const Icon(Icons.more_vert),
           color: const Color(0xFF1E2834),
-          onSelected: (value) {},
+          onSelected: (value) {
+            if (value == 'clear') {
+              _clearChat();
+            }
+          },
           itemBuilder: (context) => [
             const PopupMenuItem(value: 'contact', child: Text('عرض جهة الاتصال')),
             const PopupMenuItem(value: 'media', child: Text('وسائط وروابط ومستندات')),
@@ -214,15 +257,18 @@ class _ChatScreenState extends State<ChatScreen> {
                 radius: 22,
                 child: IconButton(
                   icon: Icon(_controller.text.isNotEmpty ? Icons.send : Icons.mic, color: Colors.white),
-                  onPressed: () {
-                    if (_controller.text.isNotEmpty) _sendMessage();
-                  },
+                  onPressed: _sendMessage,
                 ),
               ),
             ],
           ),
         ),
-        if (showStickers) Container(height: 200, color: const Color(0xFF121B22), child: const Center(child: Text('لوحة الملصقات'))),
+        if (showStickers)
+          Container(
+            height: 200,
+            color: const Color(0xFF121B22),
+            child: const Center(child: Text('لوحة الملصقات')),
+          ),
       ],
     );
   }
