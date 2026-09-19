@@ -25,10 +25,6 @@ jobs:
           flutter-version: '3.19.6'
           channel: 'stable'
 
-      - name: Recreate Android Project Files
-        run: |
-          flutter create --project-name wchat_alwzeer_app --org com.alwzeer.chat .
-
       - name: Build Android APK
         run: |
           flutter pub get
