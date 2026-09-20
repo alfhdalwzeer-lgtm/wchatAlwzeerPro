@@ -1,5 +1,5 @@
-name: wchat_alwzeer_pro
-description: "تطبيق واتساب الوزير احترافي للدردشة والمكالمات والصوتيات"
+name: wchatAlwzeerPro
+description: "A new Flutter project for Al-Wazir Chat."
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -10,32 +10,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-
-  # --- قواعد البيانات والتخزين المحلي ---
-  sqflite: ^2.3.0
-  path: ^1.8.3
-  shared_preferences: ^2.2.2
-
-  # --- مكتبات الواجهات والملصقات والإيموجي ---
   cupertino_icons: ^1.0.6
-  emoji_picker_flutter: ^1.6.3
-  flutter_spinkit: ^5.2.0
-  cached_network_image: ^3.3.1
-
-  # --- التقاط الملفات والمستندات والوسائط ---
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  cloud_firestore: ^4.15.8
   file_picker: ^8.0.0
+  audioplayers: ^6.0.0
   image_picker: ^1.0.7
-  permission_handler: ^11.3.0
-
-  # --- الصوتيات والتسجيل ---
-  audioplayers: ^5.2.1
-  record: ^5.1.0
-
-  # --- حزم الاتصال والشبكات والـ API ---
-  http: ^1.2.0
-  url_launcher: ^6.2.4
+  record: ^5.1.2
+  share_plus: ^9.0.0
+  video_player: ^2.8.2
 
 dev_dependencies:
   flutter_test:
@@ -44,8 +28,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  # مسارات الصور والأصول
-  assets:
-    - assets/images/
-    - assets/icons/
