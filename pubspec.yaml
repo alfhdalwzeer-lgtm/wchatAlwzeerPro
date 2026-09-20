@@ -1,30 +1,46 @@
-name: wchatAlwzeerPro
-description: "A new Flutter project for Al-Wazir Chat."
-publish_to: 'none'
+name: alwazir_chat
+description: Al-Wazir Chat - الفهد
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.6
-  firebase_core: ^2.27.0
-  firebase_auth: ^4.17.8
-  cloud_firestore: ^4.15.8
-  file_picker: ^8.0.0
-  audioplayers: ^6.0.0
-  image_picker: ^1.0.7
-  record: ^5.1.2
-  share_plus: ^9.0.0
-  video_player: ^2.8.2
+
+  cupertino_icons: ^1.0.8
+
+  # Firebase
+  firebase_core: ^4.14.0
+  firebase_auth: ^6.6.1
+  cloud_firestore: ^6.9.0
+
+  # الصور والملفات
+  image_picker: ^1.1.2
+  file_picker: ^8.3.7
+
+  # الصوت والفيديو
+  record: ^6.1.2
+  audioplayers: ^6.5.0
+  video_player: ^2.10.0
+
+  # التخزين المحلي
+  shared_preferences: ^2.5.3
+
+  # أدوات الواجهة
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
