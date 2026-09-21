@@ -14,7 +14,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
-  // دالة لإرسال الرسالة إلى Firestore
   void _sendMessage() async {
     if (_messageController.text.trim().isEmpty) return;
 
@@ -35,7 +34,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // دالة لتسجيل الخروج
   void _signOut() async {
     await _auth.signOut();
   }
@@ -62,7 +60,6 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: [
-          // قائمة الرسائل المحدثة لحظياً من Firestore
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _firestore
@@ -138,8 +135,6 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-
-          // شريط كتابة وإرسال الرسالة
           Container(
             padding: const EdgeInsets.all(8),
             color: const Color(0xFF1E1E1E),
