@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
+import '../../app_colors.dart';
 
-import '../theme/app_colors.dart';
-
-import '../widgets/avatar_circle.dart';
-import '../widgets/message_bubble.dart';
+import '../../widgets/avatar_circle.dart';
+import '../../widgets/message_bubble.dart';
 
 class ChatScreen extends StatefulWidget {
 
