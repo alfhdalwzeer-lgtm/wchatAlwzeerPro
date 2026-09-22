@@ -1,17 +1,20 @@
-name: Build Signed APK
+name: Build Flutter APK
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up Java JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
@@ -22,9 +25,7 @@ jobs:
         with:
           flutter-version: '3.19.x'
           channel: 'stable'
-
-      - name: Clean Project
-        run: flutter clean
+          cache: true
 
       - name: Install dependencies
         run: flutter pub get
