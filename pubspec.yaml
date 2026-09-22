@@ -1,32 +1,36 @@
-name: wchatalwzeerpro
-description: "A new Flutter project for Al-Wazir Chat."
-publish_to: 'none'
+name: Build Signed APK
 
-version: 1.0.0+1
+on:
+  push:
+    branches: [ main ]
 
-environment:
-  sdk: '>=3.0.0 <4.0.0'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-dependencies:
-  flutter:
-    sdk: flutter
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
-  nearby_connections: ^4.3.0
-  cupertino_icons: ^1.0.6
-  firebase_core: ^2.27.0
-  firebase_auth: ^4.17.8
-  cloud_firestore: ^4.15.8
-  file_picker: ^8.0.0
-  image_picker: ^1.0.7
-  video_player: ^2.8.2
-  sqflite: ^2.4.4
-  shared_preferences: ^2.5.5
-  path: ^1.9.1
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.x'
+          channel: 'stable'
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.0
+      - name: Install dependencies
+        run: flutter pub get
 
-flutter:
-  uses-material-design: true
+      - name: Build APK Release
+        run: flutter build apk --release
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
