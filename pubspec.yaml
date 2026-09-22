@@ -1,11 +1,10 @@
-name: wchat_alwzeer
+name: al_wazir_chat
 description: "A new Flutter project for Al-Wazir Chat."
 publish_to: 'none'
-
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
