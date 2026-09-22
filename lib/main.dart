@@ -30,7 +30,7 @@ class MainHomeScreen extends StatefulWidget {
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
-  int _currentIndex = 3; // تبويب الدردشات افتراضياً (حسب ترتيب الصورة يمين)
+  int _currentIndex = 3; // تبويب الدردشات افتراضياً
 
   final List<Widget> _screens = const [
     StatusScreen(),
@@ -116,9 +116,9 @@ class ChatsListScreen extends StatelessWidget {
     return ListView(
       children: [
         ListTile(
-          leading: CircleAvatar(
-            backgroundColor: const Color(0xFF1F2C34),
-            child: const Icon(Icons.person, color: Color(0xFFFFD700)),
+          leading: const CircleAvatar(
+            backgroundColor: Color(0xFF1F2C34),
+            child: Icon(Icons.person, color: Color(0xFFFFD700)),
           ),
           title: const Text(
             'مستخدم الفهد',
@@ -135,9 +135,9 @@ class ChatsListScreen extends StatelessWidget {
           onTap: () {},
         ),
         ListTile(
-          leading: CircleAvatar(
-            backgroundColor: const Color(0xFFFFD700),
-            child: const Icon(Icons.star, color: Color(0xFF111B21)),
+          leading: const CircleAvatar(
+            backgroundColor: Color(0xFFFFD700),
+            child: Icon(Icons.star, color: Color(0xFF111B21)),
           ),
           title: const Text(
             'الفهد',
