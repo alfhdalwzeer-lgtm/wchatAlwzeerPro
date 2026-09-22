@@ -51,19 +51,19 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
+            icon: Icon(Icon.chat),
             label: 'الدردشات',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
+            icon: Icon(Icon.group),
             label: 'المجموعات',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.call),
+            icon: Icon(Icon.call),
             label: 'المكالمات',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.update),
+            icon: Icon(Icon.update),
             label: 'التحديثات',
           ),
         ],
