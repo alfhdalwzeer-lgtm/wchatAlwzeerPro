@@ -1,4 +1,27 @@
-// شاشة الإعدادات والملف الشخصي الكاملة والمرتبة
+import 'package:flutter/material.dart';
+
+void main() => runApp(const AlFahdChatApp());
+
+class AlFahdChatApp extends StatelessWidget {
+  const AlFahdChatApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'AlFahd Chat',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF121822),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF161D2A),
+          elevation: 0,
+        ),
+      ),
+      home: const SettingsScreen(),
+    );
+  }
+}
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -11,11 +34,10 @@ class SettingsScreen extends StatelessWidget {
           'الإعدادات',
           style: TextStyle(color: Color(0xFFFFFB30)),
         ),
-        backgroundColor: const Color(0xFF161D2A),
       ),
       body: ListView(
         children: [
-          // معلومات المستخدم الشخصية في أعلى الإعدادات
+          // معلومات المستخدم الشخصية في أعلى الإعدادات[span_0](start_span)[span_0](end_span)
           Container(
             padding: const EdgeInsets.all(18),
             color: const Color(0xFF161D2A),
@@ -55,7 +77,7 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           
-          // خيارات الإعدادات
+          // خيارات الإعدادات المتنوعة[span_1](start_span)[span_1](end_span)[span_2](start_span)[span_2](end_span)
           _setting(
             Icons.key,
             'الحساب',
@@ -82,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
             'إدارة استخدام الشبكة والوسائط',
           ),
 
-          // زر التبديل للوضع الداكن
+          // زر التبديل للوضع الداكن[span_3](start_span)[span_3](end_span)
           SwitchListTile(
             secondary: const Icon(
               Icons.nightlight_round,
@@ -119,7 +141,7 @@ class SettingsScreen extends StatelessWidget {
 
           const Divider(color: Colors.grey),
 
-          // زر تسجيل الخروج مع نافذة تأكيد
+          // زر تسجيل الخروج والنافذة الخاصة به[span_4](start_span)[span_4](end_span)[span_5](start_span)[span_5](end_span)[span_6](start_span)[span_6](end_span)
           ListTile(
             leading: const Icon(
               Icons.exit_to_app,
@@ -145,7 +167,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  // دالة مخصصة لإنشاء عناصر القائمة (ListTile) بتصميم موحد
+  // دالة لإنشاء عناصر الإعدادات المتكررة بنسق واحد[span_7](start_span)[span_7](end_span)
   Widget _setting(IconData icon, String title, String subtitle) {
     return ListTile(
       leading: Icon(
@@ -164,7 +186,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  // نافذة تنبيه تأكيد تسجيل الخروج
+  // نافذة تأكيد تسجيل الخروج[span_8](start_span)[span_8](end_span)[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)
   void _logoutDialog(BuildContext context) {
     showDialog(
       context: context,
